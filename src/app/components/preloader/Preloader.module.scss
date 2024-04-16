@@ -1,0 +1,69 @@
+.wrapper {
+    position: absolute;
+    top: 50%;     
+    transform: translate(0, -50%);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    text-align: center;
+    font-size: var(--fs_lg);
+    font-weight: var(--fw-bold);
+    color: var(--white);
+    margin-bottom: 50px;
+}
+
+.loader {
+    position: relative;
+    width: 300px;
+}
+
+.loader span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+@for $i from 1 through 19 {
+    .loader .dot#{$i} {
+        transform: translateX(15px * $i);
+    }
+}
+
+.loader span::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    background: var(--white);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.8),
+                0 0 40px rgba(255, 255, 255, 0.8),
+                0 0 60px rgba(255, 255, 255, 0.8),
+                0 0 80px rgba(255, 255, 255, 0.8),
+                0 0 100px rgba(255, 255, 255, 0.8);
+    animation: animate 2s linear infinite;
+}
+
+@for $i from 1 through 20 {
+    .loader .dot#{$i}::before {
+        animation-delay: 0.1s * $i;
+    }
+}
+
+@keyframes animate {
+    0% {
+        transform: scale(1);
+    }
+    80%,100% {
+        transform: scale(0);
+    }
+}

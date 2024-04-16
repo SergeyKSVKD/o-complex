@@ -1,0 +1,11 @@
+.card {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+        p {
+            text-align: center;
+            font-size: 96px;
+            color: var(--white);
+        }   
+}
