@@ -1,10 +1,5 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+first, run the development server:
 
-## Getting Started
-
-First, run the development server:
-
-```bash
 npm run dev
 # or
 yarn dev
@@ -12,25 +7,101 @@ yarn dev
 pnpm dev
 # or
 bun dev
-```
+Open http://localhost:3000 with your browser to see the result.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+You can start editing the page by modifying app/page.js. The page auto-updates as you edit the file.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project uses next/font to automatically optimize and load Inter, a custom Google Font.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Тестовое задание React Developer (Next.js)
 
-## Learn More
+визуал по фигме https://www.figma.com/file/XIYVl8ICFkdl3HJZcc8o8B/тестовое?type=design&node-id=0%3A1&mode=design&t=6xUI2e3VtlUzDocD-1
 
-To learn more about Next.js, take a look at the following resources:
+- должен быть адаптирован под мобильные устройства и планшеты
++ наполнение контентом отзывов из html обернутого в json
++ наполнение контентом товары по апи
++ показывать первую страницу сразу
++ остальные страницы подгружать ajax запросом, по мере прокрутки вниз
++ при нажатии на кнопку "купить", она должна меняться на кнопки + и - и поле для ввода кол-ва товара, значение поля должно быть 1, кнопки должны добавлять отбавлять товар.
++ при изменении кол-ва какого-либо из товаров должна меняться информация в корзине (та что над полем с телефоном)
+- набранные товары и введенный номер телефона должны сохраняться при перезагрузки страницы
+- маска в поле для телефона
+- при нажатии кнопки "заказать" идет проверка того что телефон полностью введен
++ если всё хорошо - отправлять запрос на сервер
++- если есть ошибки - подсветить соответствующие поля красным (поле номера телефона)
++- после отправки запроса и получения ответа от сервера отобразить попап что всё успешно (сделать попап в стиле самого сайта)
+всё из выше перечисленного делать не обязательно, но чем больше - тем лучше.
+помимо исполнения конкретных пунктов тз тк же будет ценится:
++ проявлении инициативы по улучшению ux на месте. например добавить прилоадеры пока грузится контент.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+API:
+тело запроса и тело ответа присылать в json формате
+так же для корректной работы необходимо передавать хэдер 'content-type: application/json'
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+--------------------получить список отзывов----------------------
 
-## Deploy on Vercel
+GET http://o-complex.com:1337/reviews
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+параметры: НЕТ
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+пример ответа:
+[
+	{
+		"id": 1,
+		"text": "<h1>something</h1><p>jiofewjf wefofwejoifewoi</p>"
+	}
+]
+​
+--------------------полуить список товаров-----------------------
+
+GET http://o-complex.com:1337/products?page=1&page_size=20
+
+параметры:
+'page' - страница
+'page_size' - кол-во товаров на странице
+пример ответа:
+{
+	"page": 1,
+	"amount": 1,
+	"total": 228,
+	"items": [
+		{
+			"id": 12,
+			"image_url": "http://example.com/image.webp",
+			"title": "title",
+			"description": "description, description",
+			"price": 1215
+		}
+	]
+}
+​
+----------------------------заказ-------------------------------
+
+POST http://o-complex.com:1337/order
+
+пример тела запроса:
+{
+	"phone": "79163452487",
+	"cart": [
+		{
+			"id": 12,
+			"quantity": 2
+		},
+		{
+			"id": 15,
+			"quantity": 5
+		}
+	]
+}
+
+​
+пример тела ответа, ошибка:
+{
+	"success": 0,
+	"error": "отсутствуют товарвы"
+}
+
+пример тела ответа, успех:
+{
+	"success": 1,
+}
